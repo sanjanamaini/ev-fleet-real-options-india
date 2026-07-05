@@ -1,0 +1,11 @@
+{
+  "sigma_annual": 0.06991043623821933,
+  "mu_annual": 0.05126461020166398,
+  "u": 1.0724121276884864,
+  "d": 0.9324773323437082,
+  "p_up": 0.8584287622020775,
+  "last_price": 98.0,
+  "last_year": 2026,
+  "calibration_window": "2015-2026, post fuel-price-deregulation (Oct 2014)",
+  "source": "cleartax.in historical diesel price compilation"
+}
