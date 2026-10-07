@@ -220,7 +220,7 @@ for label, (key, a, b) in RANGES.items():
     rows.append({"input": label, "low": a, "high": b, "gap_at_low": vals[0], "gap_at_high": vals[1], "swing": abs(vals[1] - vals[0])})
 tor = pd.DataFrame(rows).sort_values("swing")
 R["base_gap"] = base_gap
-R["tornado"] = tor.round(0).to_dict(orient="records")
+R["tornado"] = tor.round({"gap_at_low": 0, "gap_at_high": 0, "swing": 0}).to_dict(orient="records")
 fig, ax = plt.subplots(figsize=(7.5, 3.8))
 for i, r_ in enumerate(tor.itertuples()):
     lo_, hi_ = sorted([r_.gap_at_low, r_.gap_at_high])
