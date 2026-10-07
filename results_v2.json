@@ -1,0 +1,140 @@
+{
+ "v1_npv_ev": 3711383.6182629718,
+ "v1_npv_diesel": 5280806.686998283,
+ "v1_breakeven_price": 117.30679196468009,
+ "v1_flexible_value": 5280806.686998283,
+ "v1_option_value": 0.0,
+ "km_per_day_365": 246.57534246575344,
+ "km_per_day_300": 300.0,
+ "one_charge_km_per_year_300d": 52500,
+ "npv_diesel_fuel_growth_0.000": 5280806.686998283,
+ "npv_diesel_fuel_growth_0.051": 3973031.934622406,
+ "ev_cost_per_km": 21.414285714285715,
+ "diesel_cost_per_km": 21.818181818181817,
+ "sigma_annual_avg": 0.06991043623821933,
+ "sigma_point_in_time_approx": 0.08562244823950782,
+ "sigma_ci": [
+  0.048847613364544164,
+  0.12268816986875347
+ ],
+ "series_rise_2022_2025": 0.11241758241758237,
+ "option_value_by_sigma": [
+  {
+   "sigma": 0.07,
+   "option_value_lakh": 0.0
+  },
+  {
+   "sigma": 0.1,
+   "option_value_lakh": 0.0
+  },
+  {
+   "sigma": 0.2,
+   "option_value_lakh": 0.0
+  },
+  {
+   "sigma": 0.3,
+   "option_value_lakh": 0.0
+  },
+  {
+   "sigma": 0.43,
+   "option_value_lakh": 3.732
+  }
+ ],
+ "base_gap": -1569423.0687353108,
+ "tornado": [
+  {
+   "input": "Discount rate",
+   "low": 0.0,
+   "high": 0.0,
+   "gap_at_low": -1556072.0,
+   "gap_at_high": -1586883.0,
+   "swing": 30811.0
+  },
+  {
+   "input": "Annual distance (km)",
+   "low": 50000.0,
+   "high": 90000.0,
+   "gap_at_low": -1649679.0,
+   "gap_at_high": -1569423.0,
+   "swing": 80256.0
+  },
+  {
+   "input": "EV maintenance (Rs/km)",
+   "low": 2.0,
+   "high": 3.0,
+   "gap_at_low": -1345879.0,
+   "gap_at_high": -2016511.0,
+   "swing": 670631.0
+  },
+  {
+   "input": "EV price (Rs lakh)",
+   "low": 3500000.0,
+   "high": 4500000.0,
+   "gap_at_low": -1069423.0,
+   "gap_at_high": -2069423.0,
+   "swing": 1000000.0
+  },
+  {
+   "input": "Diesel price (Rs/litre)",
+   "low": 88.0,
+   "high": 110.0,
+   "gap_at_low": -2382310.0,
+   "gap_at_high": -593959.0,
+   "swing": 1788350.0
+  },
+  {
+   "input": "Diesel mileage (km/litre)",
+   "low": 5.0,
+   "high": 6.0,
+   "gap_at_low": -772794.0,
+   "gap_at_high": -2795006.0,
+   "swing": 2022212.0
+  },
+  {
+   "input": "EV energy use (kWh/km)",
+   "low": 1.0,
+   "high": 3.0,
+   "gap_at_low": 2751359.0,
+   "gap_at_high": -2949008.0,
+   "swing": 5700367.0
+  },
+  {
+   "input": "Electricity tariff (Rs/kWh)",
+   "low": 5.0,
+   "high": 12.0,
+   "gap_at_low": 1323872.0,
+   "gap_at_high": -6777355.0,
+   "swing": 8101227.0
+  }
+ ],
+ "mc_p_ev_better": 0.44475,
+ "mc_median_gap": -302642.37513731606,
+ "mc_rank_corr": {
+  "EV energy use (kWh/km)": -0.6250057271125142,
+  "Electricity tariff (Rs/kWh)": -0.652679629862699,
+  "EV price (Rs lakh)": -0.12277645893544112,
+  "Annual distance (km)": 0.11289034349272584,
+  "Diesel price (Rs/litre)": 0.173306012765765,
+  "Diesel mileage (km/litre)": -0.21901955457604885,
+  "Discount rate": -0.03568503818321259,
+  "EV maintenance (Rs/km)": -0.06915144054937859
+ },
+ "option_value_by_ev_decline": [
+  {
+   "ev_price_decline_per_year": 0.0,
+   "option_value_lakh": 0.0
+  },
+  {
+   "ev_price_decline_per_year": 0.05,
+   "option_value_lakh": 0.0
+  },
+  {
+   "ev_price_decline_per_year": 0.1,
+   "option_value_lakh": 0.0
+  },
+  {
+   "ev_price_decline_per_year": 0.15,
+   "option_value_lakh": 0.0
+  }
+ ]
+}

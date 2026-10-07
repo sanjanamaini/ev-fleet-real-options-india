@@ -1,91 +1,32 @@
 # EV Fleet Real Options, India
 
-Should an Indian regional trucking operator buy a diesel truck, buy an electric
-truck, or wait a year and decide with better information? A real-options
-(binomial decision tree) model, built entirely on real, independently sourced
-Indian data.
+Should an Indian trucking operator buy a diesel truck, buy an electric truck, or wait a year and decide with better information? Version 1 answered with a real-options model (a binomial lattice on the diesel price). Version 2 audits that answer.
 
-## Real inputs
+## v2 (October 2026): the verdict was a coin toss
 
-| Input | Value | Source |
-|---|---|---|
-| Diesel truck (Ashok Leyland AVTR 1920 HG) | Rs 25.5 lakh capex, 5.5 km/L | trucksbuses.com, cardekho, 2026 |
-| EV truck (Tata Prima E.28K) | Rs 40 lakh capex, 453 kWh battery, 175 km range | Tata Motors spec sheet, dealer listings, 2026 |
-| Diesel price history | Annual averages, 2004-2026 | cleartax.in historical diesel price compilation |
-| Diesel volatility and drift | sigma = 7.0%/yr, mu = 5.1%/yr | calibrated from the price history above, 2015-2026 post-deregulation window |
+[`notebooks/ev_vs_diesel_audit.ipynb`](notebooks/ev_vs_diesel_audit.ipynb) replicates every v1 number in Python (diesel ₹52.8 lakh, EV ₹37.1 lakh, breakeven ₹117.31 a litre, option value ₹0), then finds:
 
-Every capex, efficiency, and range figure is a real, sourced number (see
-`Inputs` sheet notes in the workbook for each one specifically); a few
-operating estimates (electricity tariff, maintenance cost per km, freight
-rate) are flagged as estimates rather than sourced figures, and are yellow
-editable cells.
+- **The model holds diesel at today's price for each truck's eight-year life**, while drifting it 5.1% a year between decisions. With the model's own drift inside each truck's life, diesel is worth ₹39.7 lakh against the EV's ₹37.1 lakh: **the 42% gap becomes 7%**.
+- **The two trucks do different jobs.** The Ashok Leyland AVTR 1920 is an 18.5-tonne 4x2 haulage truck ([cardekho](https://trucks.cardekho.com/en/trucks/ashok-leyland/1920/specifications)). The Tata Prima E.28K is a 28-tonne 6x4 mining and construction tipper ([trucksbuses.com](https://www.trucksbuses.com/trucks/tipper/tata-prima-e.28k/specifications)). Both are credited with the same freight per km.
+- **The EV cannot drive the assumed distance.** 90,000 km a year is about 300 km a working day; one 175 km charge a day covers about 52,500 km a year.
+- **India's "7% diesel volatility" partly measures a subsidy.** The 2015-2026 window includes a nationwide retail price freeze, April 2022 to 15 May 2026, which broke with an 8.6% rise in ten days during the 2026 oil shock. The price series also rises 11% during the freeze, so its basis is unclear. Eleven annual returns put volatility anywhere from 4.9% to 12.3%.
+- **What decides the answer is the electricity tariff and the EV's energy use, not diesel.** Running costs per km are almost equal (₹21.41 EV, ₹21.82 diesel). Across plausible inputs, the EV wins in **44.5%** of 20,000 Monte Carlo draws; tariff and energy use dominate (rank correlations -0.65 and -0.63).
+- **The option to wait is worth zero for a structural reason.** In the tree, waiting means idling a year's business (about ₹16 lakh of cash flow). The real option a fleet holds is switching technology at the next replacement, which a single-purchase tree cannot represent.
 
-This is a standalone project with its own data and its own volatility
-calibration. It shares a methodology, not a dataset, with an earlier US-focused
-oil-shock stress test.
+![Tornado](charts/03_tornado.png)
 
-## Why India, and why this scope
+## v1 method (unchanged)
 
-Diesel pricing in India was administered until October 2014; the volatility
-calibration uses only the post-deregulation window (2015-2026) so it isn't
-mixing two different pricing regimes into one number.
+A 6-year recombining binomial lattice on the diesel price (u = exp(sigma), d = 1/u, drift-matched up-probability). At each node, backward induction picks the best of buying an EV, buying a diesel truck, or waiting a year. Inputs and their sources are in the workbook's `Inputs` sheet; operating estimates (tariff, maintenance, freight rate, distance) are flagged there as estimates.
 
-This models a regional, return-to-base duty cycle, not long-haul interstate
-trucking. The Tata Prima E.28K's real range (150-200 km/charge) is a hard
-constraint for long-haul without en-route fast-charging infrastructure that
-doesn't yet exist at scale in India. Regional distribution with overnight depot
-charging is the use case where this truck's real specifications aren't a
-binding constraint.
-
-## Method
-
-A 6-year (t = 0..5) recombining binomial lattice on the diesel price, with
-`u = exp(sigma)`, `d = 1/u`, and a physical (drift-matched, not risk-neutral)
-up-probability chosen so the lattice reproduces India's real historical drift,
-not just its volatility. At every node, backward induction picks the best of:
-buy an EV truck now, buy a diesel truck now, or wait one year and decide again
-(zero cash flow while waiting). Every "buy" value gets a full fresh 8-year
-truck life from that decision point, not a truncated remaining life.
-
-## Findings
-
-**At today's diesel price (Rs 98/litre), diesel dominates by a wide margin:**
-buying diesel now is worth Rs 52.8 lakh vs Rs 37.1 lakh for EV, a 42% gap.
-
-**The diesel price would need to rise to Rs 117.31/litre (+20%) before EV
-becomes the better buy.** At India's real 5.1%/year historical drift, that
-level is reached in roughly 3.5 years.
-
-**The value of flexibility is exactly Rs 0 at India's real volatility.**
-India's diesel price is low-volatility (7%/year) even though it trends up
-steadily, so waiting to decide never beats just committing to the
-currently-better option. See `charts/02_option_value_vs_volatility.png`: option
-value stays flat at zero until volatility crosses roughly 38-40%, then rises.
-Crude oil itself runs at about 43% annual volatility, so a market with that
-much price risk (unlike India's administered, low-volatility diesel pricing)
-is exactly where flexibility would start to be worth paying for. This is the
-textbook real-options result, shown with real numbers rather than asserted.
-
-**Practical read:** for a regional Indian fleet operator today, this isn't
-"wait and see" -- it's "buy the diesel truck now, and re-run this same
-calculation for the next truck purchase in 3-4 years," since that is roughly
-when the crossover becomes plausible.
-
-## Repo structure
+## Repository
 
 ```
-data/
-  diesel_price_india.csv          real annual average retail diesel prices, 2004-2026
-  calibrate_volatility.py         computes sigma/mu/u/d/p from the post-2015 window
-  volatility_calibration.json     calibration output, consumed by the Excel model
-excel/
-  build_model.py                  generates the full workbook (all live formulas)
-  ev_real_options_india.xlsx      README, Inputs, Lattice, DecisionTree, Summary, Sensitivity
-charts/
-  build_charts.py                 regenerates both PNGs below
-  01_diesel_price_history.png
-  02_option_value_vs_volatility.png
+notebooks/ev_vs_diesel_audit.ipynb   v2: replication, inconsistencies, volatility, tornado, Monte Carlo, option analysis
+data/                                diesel price series, calibration script and output
+excel/                               v1 workbook generator and workbook
+charts/                              v1 and v2 figures
+results_v2.json                      every number in the v2 notebook
 ```
 
-Regenerate everything: `python data/calibrate_volatility.py`, then
-`python excel/build_model.py`, then `python charts/build_charts.py`.
+Regenerate: `python data/calibrate_volatility.py`, `python excel/build_model.py`, `python charts/build_charts.py`; then execute the notebook (`jupyter nbconvert --to notebook --execute --inplace notebooks/ev_vs_diesel_audit.ipynb`).
